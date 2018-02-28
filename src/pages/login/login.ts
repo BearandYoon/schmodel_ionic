@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { FormBuilder, Validators } from '@angular/forms';
+
+import { AuthService } from '../../core/services/auth.service';
 
 /**
  * Generated class for the LoginPage page.
@@ -15,11 +18,33 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class LoginPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  loginForm: any;
+
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    private formBuilder: FormBuilder,
+    private authService: AuthService
+  ) {
+    this.loginForm = this.formBuilder.group({
+      'email': ['', Validators.required],
+      'password': ['', Validators.required]
+    });
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad LoginPage');
   }
 
+  onSignIn() {
+    console.log(this.loginForm.value);
+    this.authService.login(this.loginForm.value)
+      .subscribe(response => {
+        console.log('login response = ', response);
+      })
+  }
+
+  showTermsAndConditions() {
+    console.log('showTermsAndConditions');
+  }
 }
