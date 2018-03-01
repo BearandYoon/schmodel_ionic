@@ -1,9 +1,13 @@
 import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 
 import { ApiRoutingService } from '../core/api-routing.service';
+import { UserStorageService } from '../core/storage/storage.service';
+import { TokensInterceptor } from '../core/interceptors/tokens-interceptor';
+import { ErrorHandlerInterceptor } from '../core/interceptors/error-handler-interceptor';
+import { ContentTypeInterceptor } from '../core/interceptors/content-type-interceptor';
 
 import { MyApp } from './app.component';
 
@@ -40,7 +44,26 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     StatusBar,
     SplashScreen,
     ApiRoutingService,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    UserStorageService,
+    {
+      provide: ErrorHandler,
+      useClass: IonicErrorHandler
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ContentTypeInterceptor,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokensInterceptor,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ErrorHandlerInterceptor,
+      multi: true
+    }
   ]
 })
 export class AppModule {}
