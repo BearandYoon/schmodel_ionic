@@ -44,3 +44,19 @@
   font-family: 'Open Sans', sans-serif;
   font-size: 19px;
 }
+
+.error-message-container {
+  min-height: 40px;
+  background-color: #FF4165;
+  color: white;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .error-message {
+    font-size: 14px;
+    margin: 0;
+    font-weight: bold;
+  }
+}

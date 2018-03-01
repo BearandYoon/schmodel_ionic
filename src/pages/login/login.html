@@ -15,7 +15,7 @@
           Beauty is in the<br> eye of the employer
         </p>
         <div class="form-wrapper">
-          <form [formGroup]="loginForm" (submit)="onSignIn()">
+          <form [formGroup]="loginForm" (submit)="onSignIn()" (change)="onChange()">
             <ion-item>
               <ion-input type="email" placeholder="Email Address" formControlName="email"></ion-input>
             </ion-item>
@@ -26,12 +26,11 @@
               <p class="forgot-pass">Forgot Password?</p>
             </div>
             <div class="action-container">
-              <!--<app-toast-->
-                <!--*ngIf="status"-->
-                <!--[toastType]="status.success ? 'success' : 'error'"-->
-                <!--[toastMessage]="status.message"-->
-                <!--(closeToast)="status = null"-->
-              <!--&gt;</app-toast>-->
+              <div class="error-message-container" *ngIf="errorMsg">
+                <p class="error-message">
+                  {{errorMsg}}
+                </p>
+              </div>
               <div class="btn-login-container">
                 <button class="btn bordered-btn" type="submit" [disabled]="!loginForm.valid"> Login </button>
               </div>

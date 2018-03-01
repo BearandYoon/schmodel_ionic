@@ -5,6 +5,8 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { HomePage } from '../home/home';
 import { AuthService } from '../../core/services/auth.service';
 import { UserStorageService } from '../../core/storage/storage.service';
+import { ValidationService } from '../../core/services/validation.service';
+import { ValidationMessage } from '../../core/constant';
 
 /**
  * Generated class for the LoginPage page.
@@ -21,13 +23,15 @@ import { UserStorageService } from '../../core/storage/storage.service';
 export class LoginPage {
 
   loginForm: any;
+  errorMsg = '';
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     private formBuilder: FormBuilder,
     private authService: AuthService,
-    private storage: UserStorageService
+    private storage: UserStorageService,
+    private validationService: ValidationService
   ) {
     this.loginForm = this.formBuilder.group({
       'email': ['', Validators.required],
@@ -45,6 +49,10 @@ export class LoginPage {
   }
 
   onSignIn() {
+    if (!this.validationForm()) {
+      return;
+    }
+
     console.log(this.loginForm.value);
     this.authService.login(this.loginForm.value)
       .subscribe(response => {
@@ -55,5 +63,34 @@ export class LoginPage {
 
   showTermsAndConditions() {
     console.log('showTermsAndConditions');
+  }
+
+  validationForm() {
+    this.errorMsg = '';
+    if (this.validationService.emailValidator(this.loginForm.controls.email)) {
+      this.loginForm.controls.email.setErrors({invalid: true});
+      this.errorMsg = ValidationMessage.INVALID_EMAIL;
+      return false;
+    }
+
+    if (this.loginForm.value.password.length < 6) {
+      this.loginForm.controls.password.setErrors({invalid: true});
+      this.errorMsg = ValidationMessage.INVALID_PASSWORD;
+      return false;
+    }
+
+    if (this.validationService.passwordSpecialValidator(this.loginForm.controls.password)) {
+      this.loginForm.controls.password.setErrors({invalid: true});
+      this.errorMsg = ValidationMessage.INVALID_SPECIAL_PASSWORD;
+      return false;
+    }
+
+    return true;
+  }
+
+  onChange() {
+    this.errorMsg = '';
+    this.loginForm.conrols.email.setErrors(null);
+    this.loginForm.conrols.password.setErrors(null);
   }
 }
