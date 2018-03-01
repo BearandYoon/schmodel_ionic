@@ -30,3 +30,17 @@
   font-family: 'Open Sans Bold';
   src: url('../assets/fonts/Open_Sans/OpenSans-Bold.ttf') format('truetype');
 }
+
+.toolbar-background-md {
+  background-image: url('../assets/imgs/bg_row.png');
+  background-color: black;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+
+.toolbar-title-md {
+  text-align: center;
+  color: #ffffff;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 19px;
+}

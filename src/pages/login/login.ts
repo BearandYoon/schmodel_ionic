@@ -2,7 +2,9 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { FormBuilder, Validators } from '@angular/forms';
 
+import { HomePage } from '../home/home';
 import { AuthService } from '../../core/services/auth.service';
+import { UserStorageService } from '../../core/storage/storage.service';
 
 /**
  * Generated class for the LoginPage page.
@@ -24,7 +26,8 @@ export class LoginPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     private formBuilder: FormBuilder,
-    private authService: AuthService
+    private authService: AuthService,
+    private storage: UserStorageService
   ) {
     this.loginForm = this.formBuilder.group({
       'email': ['', Validators.required],
@@ -32,8 +35,13 @@ export class LoginPage {
     });
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad LoginPage');
+  ionViewCanEnter() {
+    const authToken = this.storage.get();
+    console.log(authToken);
+
+    if (authToken) {
+      this.navCtrl.setRoot(HomePage);
+    }
   }
 
   onSignIn() {
@@ -41,6 +49,7 @@ export class LoginPage {
     this.authService.login(this.loginForm.value)
       .subscribe(response => {
         console.log('login response = ', response);
+        this.navCtrl.setRoot(HomePage);
       })
   }
 
