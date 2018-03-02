@@ -1,0 +1,44 @@
+<ion-content>
+  <div class="page-container">
+    <div class="logo-container">
+      <img class="img-logo" src="../assets/imgs/img_logo.png">
+      <p class="comment">
+        Lets get to know<br>each other
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <div class="content-container">
+        <div class="form-wrapper">
+          <form [formGroup]="signUpForm" (submit)="onSignUp()" (keyup)="onChange()">
+            <div class="form-content">
+              <ion-item>
+                <ion-input type="email" placeholder="Email Address" formControlName="email"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-input type="password" placeholder="Create a Password (Min. 6 Characters)" formControlName="password"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-input type="password" placeholder="Re-enter Password" formControlName="confirmPass"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-input type="text" placeholder="Activation Code (If you have one)" formControlName="activationCode"></ion-input>
+              </ion-item>
+            </div>
+            <div class="action-container">
+              <div class="error-message-container" *ngIf="errorMsg">
+                <p class="error-message">
+                  {{errorMsg}}
+                </p>
+              </div>
+              <div class="btn-register-container">
+                <button class="btn bordered-btn" type="submit" [disabled]="!signUpForm.valid"> Create Schmodel Account </button>
+              </div>
+              <a (click)="login()">Already have an account?</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</ion-content>

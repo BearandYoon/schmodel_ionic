@@ -7,9 +7,10 @@ import { AuthService } from '../../core/services/auth.service';
 import { UserStorageService } from '../../core/storage/storage.service';
 import { ValidationService } from '../../core/services/validation.service';
 import { ValidationMessage } from '../../core/constant';
+import { LoginPage } from '../login/login';
 
 /**
- * Generated class for the LoginPage page.
+ * Generated class for the SignupPage page.
  *
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
@@ -17,12 +18,12 @@ import { ValidationMessage } from '../../core/constant';
 
 @IonicPage()
 @Component({
-  selector: 'page-login',
-  templateUrl: 'login.html',
+  selector: 'page-signup',
+  templateUrl: 'signup.html',
 })
-export class LoginPage {
+export class SignupPage {
 
-  loginForm: any;
+  signUpForm: any;
   errorMsg = '';
 
   constructor(
@@ -33,9 +34,11 @@ export class LoginPage {
     private storage: UserStorageService,
     private validationService: ValidationService
   ) {
-    this.loginForm = this.formBuilder.group({
+    this.signUpForm = this.formBuilder.group({
       'email': ['', Validators.required],
-      'password': ['', Validators.required]
+      'password': ['', Validators.required],
+      'confirmPass': ['', Validators.required],
+      'activationCode': ['']
     });
   }
 
@@ -48,13 +51,13 @@ export class LoginPage {
     }
   }
 
-  onSignIn() {
+  onSignUp() {
     if (!this.validationForm()) {
       return;
     }
 
-    console.log(this.loginForm.value);
-    this.authService.login(this.loginForm.value)
+    console.log(this.signUpForm.value);
+    this.authService.login(this.signUpForm.value)
       .subscribe(response => {
         console.log('login response = ', response);
         this.navCtrl.setRoot(HomePage);
@@ -69,21 +72,27 @@ export class LoginPage {
 
   validationForm() {
     this.errorMsg = '';
-    if (this.validationService.emailValidator(this.loginForm.controls.email)) {
-      this.loginForm.controls.email.setErrors({invalid: true});
+    if (this.validationService.emailValidator(this.signUpForm.controls.email)) {
+      this.signUpForm.controls.email.setErrors({invalid: true});
       this.errorMsg = ValidationMessage.INVALID_EMAIL;
       return false;
     }
 
-    if (this.loginForm.value.password.length < 6) {
-      this.loginForm.controls.password.setErrors({invalid: true});
+    if (this.signUpForm.value.password.length < 6) {
+      this.signUpForm.controls.password.setErrors({invalid: true});
       this.errorMsg = ValidationMessage.INVALID_PASSWORD;
       return false;
     }
 
-    if (this.validationService.passwordSpecialValidator(this.loginForm.controls.password)) {
-      this.loginForm.controls.password.setErrors({invalid: true});
+    if (this.validationService.passwordSpecialValidator(this.signUpForm.controls.password)) {
+      this.signUpForm.controls.password.setErrors({invalid: true});
       this.errorMsg = ValidationMessage.INVALID_SPECIAL_PASSWORD;
+      return false;
+    }
+
+    if (this.signUpForm.value.password !== this.signUpForm.value.confirmPass) {
+      this.signUpForm.controls.confirmPass.setErrors({invalid: true});
+      this.errorMsg = ValidationMessage.NON_MATCHING_PASSWORD_SIGNUP;
       return false;
     }
 
@@ -92,12 +101,12 @@ export class LoginPage {
 
   onChange() {
     this.errorMsg = '';
-    this.loginForm.controls.email.setErrors(null);
-    this.loginForm.controls.password.setErrors(null);
+    this.signUpForm.controls.email.setErrors(null);
+    this.signUpForm.controls.password.setErrors(null);
+    this.signUpForm.controls.confirmPass.setErrors(null);
   }
 
-  signUp() {
-    console.log('login-signup');
-    this.navCtrl.push('SignupPage');
+  login() {
+    this.navCtrl.push('LoginPage');
   }
 }

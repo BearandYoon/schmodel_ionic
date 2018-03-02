@@ -15,7 +15,7 @@
           Beauty is in the<br> eye of the employer
         </p>
         <div class="form-wrapper">
-          <form [formGroup]="loginForm" (submit)="onSignIn()" (change)="onChange()">
+          <form [formGroup]="loginForm" (submit)="onSignIn()" (keyup)="onChange()">
             <ion-item>
               <ion-input type="email" placeholder="Email Address" formControlName="email"></ion-input>
             </ion-item>
@@ -35,7 +35,7 @@
                 <button class="btn bordered-btn" type="submit" [disabled]="!loginForm.valid"> Login </button>
               </div>
               <div class="btn-register-container">
-                <a class="">Schmodel Sign-up</a>
+                <a (click)="signUp()">Schmodel Sign-up</a>
                 <span (click)="showTermsAndConditions()" class="terms-condition">Terms & Conditions</span>
               </div>
             </div>

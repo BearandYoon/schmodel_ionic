@@ -1,7 +1,7 @@
-page-login {
+page-signup {
   .page-container {
     background-color: black;
-    background-image: url("../assets/imgs/bg_login.png");
+    background-image: url("../assets/imgs/bg_register.png");
     background-size: cover;
     background-position: center top;
     width: 100%;
@@ -12,14 +12,17 @@ page-login {
     justify-content: space-between;
 
     .img-logo {
+      width: 60%;
+      padding-bottom: 20px;
       display: block;
       margin: auto;
-      width: 60%;
     }
 
     .content-wrapper {
       align-items: flex-end;
       display: flex;
+      min-height: 300px;
+      padding-bottom: 20px;
     }
 
     .content-container {
@@ -37,22 +40,31 @@ page-login {
       }
     }
 
-    .forgot-pass-wrapper {
-      display: flex;
-
-      .forgot-pass {
-        text-align: left;
-      }
-    }
-
     p {
       font-family: "Open Sans Light";
       font-size: 12px;
     }
 
+    p.comment {
+      font-size: 24px;
+      text-align: center;
+      color: #FFFFFF;
+    }
+
+    p.miss-match-pass {
+      color: red;
+      text-align: left;
+    }
+
+    .action-container a {
+      text-transform: none;
+      font-size: 14px;
+      color: #FFFFFF;
+    }
+
     .action-container {
       font-family: "Open Sans Bold";
-      margin-bottom: 16px;
+      margin: 16px 0;
 
       .bordered-btn {
         color: rgba(255, 255, 255, 0.8);
@@ -63,6 +75,7 @@ page-login {
         padding: 0 25px;
         border-radius: 0;
         text-transform: uppercase;
+        margin: auto;
       }
 
       .bordered-btn:hover, .bordered-btn:focus, .bordered-btn:active, .bordered-btn:visited {
@@ -71,24 +84,10 @@ page-login {
         outline: none;
       }
 
-      .btn-login-container {
-        padding-bottom: 20px;
-      }
-
       .btn-register-container {
         display: flex;
         flex-direction: column;
-        a {
-          font-size: 14px;
-          color: #FFFFFF;
-          margin: auto;
-        }
-      }
-
-      .terms-condition {
-        font-family: "Open Sans Light";
-        font-size: 12px;
-        margin: auto;
+        padding: 0 0 20px;
       }
     }
 
@@ -99,3 +98,4 @@ page-login {
     }
   }
 }
+
